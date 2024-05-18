@@ -5,8 +5,8 @@ window.addEventListener('load', function () {
         return;
     }
 
-    var userId = localStorage.getItem("loggedInUserId"); // Get logged in user's ID
-    var todos = JSON.parse(localStorage.getItem(`todos_${userId}`)) || []; // Use user-specific key for todos
+    var userId = localStorage.getItem("loggedInUserId"); 
+    var todos = JSON.parse(localStorage.getItem(`todos_${userId}`)) || []; 
     var newTodoForm = document.querySelector('#new-todo-form');
     var logoutButton = document.getElementById('logout-button');
 
@@ -84,7 +84,7 @@ window.addEventListener('load', function () {
 
             input.addEventListener('change', function (e) {
                 todo.done = e.target.checked;
-                localStorage.setItem(`todos_${userId}`, JSON.stringify(todos)); // Save todos with user-specific key
+                localStorage.setItem(`todos_${userId}`, JSON.stringify(todos)); 
 
                 if (todo.done) {
                     todoItem.classList.add('done');
@@ -102,14 +102,14 @@ window.addEventListener('load', function () {
                 input.addEventListener('blur', function (e) {
                     input.setAttribute('readonly', true);
                     todo.content = e.target.value;
-                    localStorage.setItem(`todos_${userId}`, JSON.stringify(todos)); // Save todos with user-specific key
+                    localStorage.setItem(`todos_${userId}`, JSON.stringify(todos));
                     DisplayTodos();
                 });
             });
 
             deleteButton.addEventListener('click', function (e) {
                 todos = todos.filter(t => t != todo);
-                localStorage.setItem(`todos_${userId}`, JSON.stringify(todos)); // Save todos with user-specific key
+                localStorage.setItem(`todos_${userId}`, JSON.stringify(todos)); 
                 DisplayTodos();
             });
         });
