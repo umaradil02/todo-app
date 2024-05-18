@@ -4,9 +4,22 @@ var signupForm = document.querySelector("form.signup");
 var loginBtn = document.querySelector("label.login");
 var signupBtn = document.querySelector("label.signup");
 var signupLink = document.querySelector("form .signup-link a");
+var forgetBtn = document.querySelector("form .pass-link a");
 var toastContainer = document.getElementById("liveToast");
 var toastBody = toastContainer.querySelector(".toast-header").innerHTML;
 var users = JSON.parse(localStorage.getItem("users")) || [];
+
+
+document.addEventListener("DOMContentLoaded", function (){
+
+    signupLink.addEventListener('click', function(event) {
+        event.preventDefault(); 
+        signupForm.classList.add('active');
+        loginForm.classList.remove('active');
+    });
+
+
+})
 
 function generateUserId(email) {
     return email.replace(/[^a-zA-Z0-9]/g, '') + Date.now();
@@ -56,7 +69,7 @@ loginForm.addEventListener("submit", function (event) {
     }
 
     localStorage.setItem("islogdin", "true");
-    localStorage.setItem("loggedInUserId", userExist.id); // Save logged in user's ID
+    localStorage.setItem("loggedInUserId", userExist.id); 
     location.href = "index.html";
 });
 
