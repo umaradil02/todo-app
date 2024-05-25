@@ -39,10 +39,12 @@ signupForm.addEventListener("submit", function (event) {
     var formData = new FormData(event.currentTarget);
     var email = formData.get("email");
     var password = formData.get("password");
+    var firstName = formData.get("firstName");
+    var lastName = formData.get("lastName");
 
     if (!users.find(function (user) { return user.email === email; })) {
         var userId = generateUserId(email);
-        users.push({ id: userId, email: email, password: password });
+        users.push({ id: userId, email: email, password: password, firstName: firstName, lastName: lastName, });
         showToast("Thanks", "Account created successfully", "green");
     } else {
         showToast("Error", "Account already exists", "red");

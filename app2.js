@@ -4,28 +4,34 @@ window.addEventListener('load', function () {
         location.href = "register.html";
         return;
     }
-
-    var userId = localStorage.getItem("loggedInUserId"); 
-    var todos = JSON.parse(localStorage.getItem(`todos_${userId}`)) || []; 
+    var todos = JSON.parse(localStorage.getItem(`todos_${userId}`)) || [];
     var newTodoForm = document.querySelector('#new-todo-form');
     var logoutButton = document.getElementById('logout-button');
+    var userId = localStorage.getItem("loggedInUserId");
+    var users = JSON.parse(localStorage.getItem("users")) || [];
+    var user = users.find(user => user.id === userId);
+    if (user) {
+var userName = document.querySelector(".user-text");
+userName.innerText = `${user.firstName}!`
+    } 
+       
 
-    newTodoForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+        newTodoForm.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        var todo = {
-            content: e.target.elements.content.value,
-            category: e.target.elements.category.value,
-            done: false,
-            createdAt: new Date().getTime()
-        };
+            var todo = {
+                content: e.target.elements.content.value,
+                category: e.target.elements.category.value,
+                done: false,
+                createdAt: new Date().getTime()
+            };
 
-        todos.push(todo);
-        localStorage.setItem(`todos_${userId}`, JSON.stringify(todos)); // Save todos with user-specific key
+            todos.push(todo);
+            localStorage.setItem(`todos_${userId}`, JSON.stringify(todos));
 
-        e.target.reset();
-        DisplayTodos();
-    });
+            e.target.reset();
+            DisplayTodos();
+        });
 
     logoutButton.addEventListener('click', function () {
         localStorage.removeItem("islogdin");
@@ -84,7 +90,7 @@ window.addEventListener('load', function () {
 
             input.addEventListener('change', function (e) {
                 todo.done = e.target.checked;
-                localStorage.setItem(`todos_${userId}`, JSON.stringify(todos)); 
+                localStorage.setItem(`todos_${userId}`, JSON.stringify(todos));
 
                 if (todo.done) {
                     todoItem.classList.add('done');
@@ -109,7 +115,7 @@ window.addEventListener('load', function () {
 
             deleteButton.addEventListener('click', function (e) {
                 todos = todos.filter(t => t != todo);
-                localStorage.setItem(`todos_${userId}`, JSON.stringify(todos)); 
+                localStorage.setItem(`todos_${userId}`, JSON.stringify(todos));
                 DisplayTodos();
             });
         });
