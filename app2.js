@@ -8,20 +8,41 @@ window.addEventListener('load', function () {
     var newTodoForm = document.querySelector('#new-todo-form');
     var logoutButton = document.getElementById('logout-button');
     var userId = localStorage.getItem("loggedInUserId");
+    var toastContainer = document.getElementById("liveToast");
+var toastBody = toastContainer.querySelector(".toast-header").innerHTML;
     var users = JSON.parse(localStorage.getItem("users")) || [];
     var user = users.find(user => user.id === userId);
     if (user) {
 var userName = document.querySelector(".user-text");
 userName.innerText = `${user.firstName}!`
     } 
-       
+    function showToast(header, msg, textcolr,boycolor) {
+        const toast = new bootstrap.Toast(toastContainer);
+        toastContainer.querySelector(".toast-header").innerHTML = header + toastBody;
+        toastContainer.querySelector(".toast-body").innerText = msg;
+        toastContainer.querySelector(".toast-header").style.color = textcolr;
+        toastContainer.querySelector(".toast-body").style.color = textcolr;
+        toastContainer.querySelector(".toast-body").style.background = boycolor;
+        toastContainer.querySelector(".toast-header").style.background = boycolor;
+        toast.show();
+    } 
 
         newTodoForm.addEventListener('submit', function (e) {
             e.preventDefault();
+            var todoContent = e.target.elements.content.value.trim();
+            var todoCategry = e.target.elements.category.value;
+            if (todoContent === "") {
+                showToast("Error", "content cannot be empty", "red", "white")
+                return;
+            }
+            if (todoCategry === "") {
+                showToast("Error", "select a categgory", "red", "white")
+                return;
+            }
 
             var todo = {
-                content: e.target.elements.content.value,
-                category: e.target.elements.category.value,
+                content: todoContent,
+                category: todoCategry,
                 done: false,
                 createdAt: new Date().getTime()
             };
@@ -104,6 +125,7 @@ userName.innerText = `${user.firstName}!`
             edit.addEventListener('click', function (e) {
                 var input = content.querySelector('input');
                 input.removeAttribute('readonly');
+                input.value = "";
                 input.focus();
                 input.addEventListener('blur', function (e) {
                     input.setAttribute('readonly', true);

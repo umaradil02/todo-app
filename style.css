@@ -187,3 +187,35 @@ form .btn input[type="submit"]{
   font-weight: 500;
   cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:425px){
+  .wrapper{
+    max-width: 350px;
+    padding: 25px;
+    margin-top: 20px;
+  }
+}
+@media(max-width:375px){
+  .wrapper{
+    max-width: 330px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+}
+@media(max-width:320px){
+  .wrapper{
+    max-width: 290px;
+    padding: 15px;
+    margin-top: 20px;
+  }
+}

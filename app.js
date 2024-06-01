@@ -10,6 +10,7 @@ var toastBody = toastContainer.querySelector(".toast-header").innerHTML;
 var users = JSON.parse(localStorage.getItem("users")) || [];
 
 
+
 document.addEventListener("DOMContentLoaded", function (){
 
     signupLink.addEventListener('click', function(event) {
@@ -25,12 +26,14 @@ function generateUserId(email) {
     return email.replace(/[^a-zA-Z0-9]/g, '') + Date.now();
 }
 
-function showToast(header, msg, textcolr) {
+function showToast(header, msg, textcolr,boycolor) {
     const toast = new bootstrap.Toast(toastContainer);
     toastContainer.querySelector(".toast-header").innerHTML = header + toastBody;
     toastContainer.querySelector(".toast-body").innerText = msg;
     toastContainer.querySelector(".toast-header").style.color = textcolr;
     toastContainer.querySelector(".toast-body").style.color = textcolr;
+    toastContainer.querySelector(".toast-body").style.background = boycolor;
+    toastContainer.querySelector(".toast-header").style.background = boycolor;
     toast.show();
 }
 
@@ -41,13 +44,18 @@ signupForm.addEventListener("submit", function (event) {
     var password = formData.get("password");
     var firstName = formData.get("firstName");
     var lastName = formData.get("lastName");
+    var regex = /^.{8,}$/;
+    if(!regex.test(password)){
+        showToast("Error", "password must be at least 8 chracters long", "red", "white")
+        return;
+    }
 
     if (!users.find(function (user) { return user.email === email; })) {
         var userId = generateUserId(email);
         users.push({ id: userId, email: email, password: password, firstName: firstName, lastName: lastName, });
-        showToast("Thanks", "Account created successfully", "green");
+        showToast("Thanks", "Account created successfully", "white","green");
     } else {
-        showToast("Error", "Account already exists", "red");
+        showToast("Error", "Account already exists", "white","red");
     }
 
     localStorage.setItem("users", JSON.stringify(users));
@@ -66,7 +74,7 @@ loginForm.addEventListener("submit", function (event) {
     });
 
     if (!userExist || userExist.password !== userCred.password) {
-        showToast("Error", "Invalid email or password", "red");
+        showToast("Error", "Invalid email or password", "white","red");
         return;
     }
 
