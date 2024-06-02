@@ -4,19 +4,22 @@ window.addEventListener('load', function () {
         location.href = "register.html";
         return;
     }
+    
+    var userId = localStorage.getItem("loggedInUserId");
     var todos = JSON.parse(localStorage.getItem(`todos_${userId}`)) || [];
     var newTodoForm = document.querySelector('#new-todo-form');
     var logoutButton = document.getElementById('logout-button');
-    var userId = localStorage.getItem("loggedInUserId");
     var toastContainer = document.getElementById("liveToast");
-var toastBody = toastContainer.querySelector(".toast-header").innerHTML;
+    var toastBody = toastContainer.querySelector(".toast-header").innerHTML;
     var users = JSON.parse(localStorage.getItem("users")) || [];
     var user = users.find(user => user.id === userId);
+
     if (user) {
-var userName = document.querySelector(".user-text");
-userName.innerText = `${user.firstName}!`
+        var userName = document.querySelector(".user-text");
+        userName.innerText = `${user.firstName}!`
     } 
-    function showToast(header, msg, textcolr,boycolor) {
+
+    function showToast(header, msg, textcolr, boycolor) {
         const toast = new bootstrap.Toast(toastContainer);
         toastContainer.querySelector(".toast-header").innerHTML = header + toastBody;
         toastContainer.querySelector(".toast-body").innerText = msg;
@@ -25,34 +28,34 @@ userName.innerText = `${user.firstName}!`
         toastContainer.querySelector(".toast-body").style.background = boycolor;
         toastContainer.querySelector(".toast-header").style.background = boycolor;
         toast.show();
-    } 
+    }
 
-        newTodoForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var todoContent = e.target.elements.content.value.trim();
-            var todoCategry = e.target.elements.category.value;
-            if (todoContent === "") {
-                showToast("Error", "content cannot be empty", "red", "white")
-                return;
-            }
-            if (todoCategry === "") {
-                showToast("Error", "select a categgory", "red", "white")
-                return;
-            }
+    newTodoForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var todoContent = e.target.elements.content.value.trim();
+        var todoCategry = e.target.elements.category.value;
 
-            var todo = {
-                content: todoContent,
-                category: todoCategry,
-                done: false,
-                createdAt: new Date().getTime()
-            };
+        if (todoContent === "") {
+            showToast("Error", "content cannot be empty", "red", "white");
+            return;
+         } else if (todoCategry === "") {
+            showToast("Error", "select a category", "red", "white");
+            return;
+        }
 
-            todos.push(todo);
-            localStorage.setItem(`todos_${userId}`, JSON.stringify(todos));
+        var todo = {
+            content: todoContent,
+            category: todoCategry,
+            done: false,
+            createdAt: new Date().getTime()
+        };
 
-            e.target.reset();
-            DisplayTodos();
-        });
+        todos.push(todo);
+        localStorage.setItem(`todos_${userId}`, JSON.stringify(todos));
+
+        e.target.reset();
+        DisplayTodos();
+    });
 
     logoutButton.addEventListener('click', function () {
         localStorage.removeItem("islogdin");
@@ -65,8 +68,26 @@ userName.innerText = `${user.firstName}!`
     function DisplayTodos() {
         var todoList = document.querySelector('#todo-list');
         todoList.innerHTML = "";
+        var completeTodos = todos.filter(todo => todo.done);
+        var remainingTodos = todos.filter(todo => !todo.done);
+        var completeCount = completeTodos.length;
+        var remainingCount = remainingTodos.length;
 
-        todos.forEach(todo => {
+        var completeElement = document.createElement("div");
+        completeElement.classList.add("todo-count");
+        completeElement.innerText = `Completed Todos: ${completeCount}`;
+
+        var remainingElement = document.createElement("div");
+        remainingElement.classList.add("todo-count1");
+        remainingElement.innerText = `Remaining Todos: ${remainingCount}`;
+
+        todoList.appendChild(completeElement);
+        todoList.appendChild(remainingElement);
+        var alltodo = [...completeTodos, ...remainingTodos]
+
+
+
+        alltodo.forEach(todo => {
             var todoItem = document.createElement('div');
             todoItem.classList.add('todo-item');
 
@@ -110,6 +131,7 @@ userName.innerText = `${user.firstName}!`
             }
 
             input.addEventListener('change', function (e) {
+                e.preventDefault();
                 todo.done = e.target.checked;
                 localStorage.setItem(`todos_${userId}`, JSON.stringify(todos));
 
@@ -124,8 +146,8 @@ userName.innerText = `${user.firstName}!`
 
             edit.addEventListener('click', function (e) {
                 var input = content.querySelector('input');
-                input.removeAttribute('readonly');
                 input.value = "";
+                input.removeAttribute('readonly');
                 input.focus();
                 input.addEventListener('blur', function (e) {
                     input.setAttribute('readonly', true);

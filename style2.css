@@ -256,6 +256,18 @@ transition: 0.2s ease-out;
 	font-size: 12px;
 	font-weight: 700;
 }
+.todo-count1{
+	position: absolute;
+	right: 4%;
+	top: 72%;
+	font-size: 1rem;
+	font-weight: 700;
+}
+.todo-count{
+	font-size: 1rem;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
 
 
 
@@ -271,4 +283,14 @@ transition: 0.2s ease-out;
 	.todo-item .actions{
 		margin-left: -55px;
 	}
+}
+@media(max-width:367px){
+	.todo-item .actions{
+		margin-left: -85px;
+	}
+	.todo-count1{
+		top: 69%;
+		right: 0;
+	}
+	
 }
