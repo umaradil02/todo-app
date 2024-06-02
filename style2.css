@@ -256,18 +256,8 @@ transition: 0.2s ease-out;
 	font-size: 12px;
 	font-weight: 700;
 }
-.todo-count1{
-	position: absolute;
-	right: 4%;
-	top: 72%;
-	font-size: 1rem;
-	font-weight: 700;
-}
-.todo-count{
-	font-size: 1rem;
-	font-weight: 700;
-	margin-bottom: 10px;
-}
+
+
 
 
 
@@ -279,18 +269,19 @@ transition: 0.2s ease-out;
 	width: fit-content;
 }
 }
-@media(max-width:385px){
+@media(max-width:375px){
 	.todo-item .actions{
-		margin-left: -55px;
+		margin-left: -75px;
 	}
 }
-@media(max-width:367px){
+@media(max-width:320px){
 	.todo-item .actions{
-		margin-left: -85px;
+		flex-wrap: wrap;
 	}
-	.todo-count1{
-		top: 69%;
-		right: 0;
+	.edit{
+		margin-bottom: 5px;
+		margin-left: 10px;
 	}
+	
 	
 }

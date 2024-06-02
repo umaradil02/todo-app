@@ -78,7 +78,7 @@ window.addEventListener('load', function () {
         completeElement.innerText = `Completed Todos: ${completeCount}`;
 
         var remainingElement = document.createElement("div");
-        remainingElement.classList.add("todo-count1");
+        remainingElement.classList.add("todo-count");
         remainingElement.innerText = `Remaining Todos: ${remainingCount}`;
 
         todoList.appendChild(completeElement);
