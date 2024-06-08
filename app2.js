@@ -4,7 +4,7 @@ window.addEventListener('load', function () {
         location.href = "register.html";
         return;
     }
-    
+
     var userId = localStorage.getItem("loggedInUserId");
     var todos = JSON.parse(localStorage.getItem(`todos_${userId}`)) || [];
     var newTodoForm = document.querySelector('#new-todo-form');
@@ -13,11 +13,13 @@ window.addEventListener('load', function () {
     var toastBody = toastContainer.querySelector(".toast-header").innerHTML;
     var users = JSON.parse(localStorage.getItem("users")) || [];
     var user = users.find(user => user.id === userId);
+    var showcompleted = false;
+
 
     if (user) {
         var userName = document.querySelector(".user-text");
         userName.innerText = `${user.firstName}!`
-    } 
+    }
 
     function showToast(header, msg, textcolr, boycolor) {
         const toast = new bootstrap.Toast(toastContainer);
@@ -38,7 +40,7 @@ window.addEventListener('load', function () {
         if (todoContent === "") {
             showToast("Error", "content cannot be empty", "red", "white");
             return;
-         } else if (todoCategry === "") {
+        } else if (todoCategry === "") {
             showToast("Error", "select a category", "red", "white");
             return;
         }
@@ -62,6 +64,12 @@ window.addEventListener('load', function () {
         localStorage.removeItem("loggedInUserId");
         location.href = "register.html";
     });
+    
+    document.getElementById("toggle-completed").addEventListener("click", function(){
+        showcompleted = !showcompleted;
+        this.innerHTML = showcompleted ? '<i style="color: red; font-size: 1.5rem;" class="fa-solid fa-circle-xmark"></i>' : '<i style="color: green; font-size: 1.5rem;" class="fa-solid fa-circle-check"></i>';
+        DisplayTodos();
+    })
 
     DisplayTodos();
 
@@ -78,12 +86,12 @@ window.addEventListener('load', function () {
         completeElement.innerText = `Completed Todos: ${completeCount}`;
 
         var remainingElement = document.createElement("div");
-        remainingElement.classList.add("todo-count");
+        remainingElement.classList.add("todo-count-remain");
         remainingElement.innerText = `Remaining Todos: ${remainingCount}`;
 
         todoList.appendChild(completeElement);
         todoList.appendChild(remainingElement);
-        var alltodo = [...completeTodos, ...remainingTodos]
+        var alltodo = showcompleted ? [...remainingTodos, ...completeTodos] : remainingTodos;
 
 
 
@@ -113,8 +121,8 @@ window.addEventListener('load', function () {
             deleteButton.classList.add('delete');
 
             content.innerHTML = `<input type="text" value="${todo.content}" readonly>`;
-            edit.innerHTML = 'Edit';
-            deleteButton.innerHTML = 'Delete';
+            edit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+            deleteButton.innerHTML = '<i class="fa-solid fa-trash-arrow-up"></i>';
 
             label.appendChild(input);
             label.appendChild(span);

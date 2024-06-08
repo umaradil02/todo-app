@@ -238,26 +238,45 @@ transition: 0.2s ease-out;
 .todo-item.done .todo-content input {
 	text-decoration: line-through;
 	color: var(--grey);
+
 }
+ .greeting{
+	font-size: 2rem;
+	font-weight: 700;
+	color: var(--grey);
+} 
 .user-text{
+	color: var(--dark);
+	text-transform: capitalize;
+
+}
+.todo-count{
+	display: inline-flex;
+	justify-content: flex-start;
+}
+.todo-count-remain{
+	display: inline-flex;
 	position: absolute;
-	right: 5%;
-	top: 2%;
-	width: 60px;
-	height: 60px;
-	background: white;
-	text-align: center;
-	border-radius: 50%;
-	box-shadow: 5px 8px 5px rgba(0, 0, 0, 0.2);
+	right: 2%;
+}
+#toggle-completed{
+	background-color: #FFF;
+	cursor: pointer;
+	color: var(--dark);
 	display: flex;
 	justify-content: center;
-	align-items: center;	
-	text-transform: capitalize;
-	font-size: 12px;
+	align-items: center;
+	flex-direction: column;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	position: absolute;
+	right: 2%;
+	top: 5%;
+	font-size: .5rem;
 	font-weight: 700;
+	box-shadow: var(--shadow);
 }
-
-
 
 
 
@@ -274,7 +293,7 @@ transition: 0.2s ease-out;
 		margin-left: -75px;
 	}
 }
-@media(max-width:320px){
+@media(max-width:373px){
 	.todo-item .actions{
 		flex-wrap: wrap;
 	}
@@ -282,6 +301,10 @@ transition: 0.2s ease-out;
 		margin-bottom: 5px;
 		margin-left: 10px;
 	}
-	
+	.todo-count-remain{
+		display: block;
+		position: relative;
+		right: 0;
+	}
 	
 }

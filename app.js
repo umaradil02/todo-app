@@ -8,6 +8,7 @@ var forgetBtn = document.querySelector("form .pass-link a");
 var toastContainer = document.getElementById("liveToast");
 var toastBody = toastContainer.querySelector(".toast-header").innerHTML;
 var users = JSON.parse(localStorage.getItem("users")) || [];
+var showcompleted = false;
 
 
 
